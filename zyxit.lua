@@ -175,23 +175,20 @@ function TIC()
     local rotSpeed = dragSpeed * deltaTime * 0.001
     rotation = mulMatMat(makeRotMat(dragX * rotSpeed, dragY * rotSpeed, dragZ * rotSpeed), rotation)
 
-    local r1,r2,r3 = rotation[1],rotation[2],rotation[3]
-    local r4,r5,r6 = rotation[4],rotation[5],rotation[6]
-    local r7,r8,r9 = rotation[7],rotation[8],rotation[9]
-    local zrotx = -7.5*r1 -7.5*r2 -7.5*r3
-    local zroty = -7.5*r4 -7.5*r5 -7.5*r6
-    local zrotz = -7.5*r7 -7.5*r8 -7.5*r9 + distance
+    local r1 = rotation[1]; local r2 = rotation[2]; local r3 =rotation[3]
+    local r4 = rotation[4]; local r5 = rotation[5]; local r6 =rotation[6]
+    local r7 = rotation[7]; local r8 = rotation[8]; local r9 =rotation[9]
+    local rotx = -7.5*r1 -7.5*r2 -7.5*r3
+    local roty = -7.5*r4 -7.5*r5 -7.5*r6
+    local rotz = -7.5*r7 -7.5*r8 -7.5*r9 + distance
+    r3 = r3 + r2*-16; r2 = r2 + r1*-16
+    r6 = r6 + r5*-16; r5 = r5 + r4*-16
+    r9 = r9 + r8*-16; r8 = r8 + r7*-16
 
     local t = time()/1000
     local i = 0
     for z = 0, 15 do
-        local yrotx = zrotx
-        local yroty = zroty
-        local yrotz = zrotz
         for y = 0, 15 do
-            local rotx = yrotx
-            local roty = yroty
-            local rotz = yrotz
             for x = 0, 15 do
                 local result = newFunc(z,y,x,i,t)
                 if result > 1 then result = 1 elseif result < -1 then result = -1 end
@@ -218,13 +215,13 @@ function TIC()
                 roty = roty + r4
                 rotz = rotz + r7
             end
-            yrotx = yrotx + r2
-            yroty = yroty + r5
-            yrotz = yrotz + r8
+            rotx = rotx + r2
+            roty = roty + r5
+            rotz = rotz + r8
         end
-        zrotx = zrotx + r3
-        zroty = zroty + r6
-        zrotz = zrotz + r9
+        rotx = rotx + r3
+        roty = roty + r6
+        rotz = rotz + r9
     end
     totalTime = totalTime + time() - newTime
     frames = frames + 1
