@@ -195,8 +195,8 @@ function TIC()
                 i = i + 1
 
                 local r = scale/rotz
-                local px = halfScreenWidth+(rotx)*r
-                local py = halfScreenHeight+(roty)*r
+                local px = halfScreenWidth + rotx * r
+                local py = halfScreenHeight + roty * r
                 r = r * result * 0.53333333 -- 0.5 * 16/15
                 local pxl = px-r
                 local pxr = px+r
