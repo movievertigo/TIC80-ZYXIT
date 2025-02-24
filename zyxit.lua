@@ -17,6 +17,8 @@ local autoRepeatDelay = 20
 local autoRepeatTime = 4
 local textRegionHeight = 7
 local scrollMargin = 25
+local textColour = 15
+local textBrightness = 0x33
 
 local screenWidth = 240
 local screenHeight = 136
@@ -346,7 +348,7 @@ local function updateTextBox()
             if textX+textWidth < screenWidth then textX = screenWidth - textWidth end
         end
         cursorX = textX + cursorDistance
-        print(input, textX+1, screenHeight-6, 3, false, 1, true)
+        print(input, textX+1, screenHeight-6, textColour, false, 1, true)
         flashTime = time()
         textDirty = false
         if selectIndex ~= cursorIndex then
@@ -355,12 +357,12 @@ local function updateTextBox()
             elseif selectIndex > cursorIndex then
                 clip(cursorX, screenHeight-7, 1+selectDistance-cursorDistance, 7)
             end
-            cls(3)
+            cls(textColour)
             print(input, textX+1, screenHeight-6, 0, false, 1, true)
             clip()
         end
     end
-    if selectIndex == cursorIndex then line(cursorX, screenHeight-7, cursorX, screenHeight, ((time()-flashTime)//500)%2 == 0 and 3 or 0) end
+    if selectIndex == cursorIndex then line(cursorX, screenHeight-7, cursorX, screenHeight, ((time()-flashTime)//500)%2 == 0 and textColour or 0) end
     vbank(1)
 
     return modified
@@ -392,6 +394,9 @@ end
 
 function BOOT()
     cls(0)
+    for i = 0, 2 do
+        poke(0x3FC0+textColour*3+i, textBrightness)
+    end
     vbank(1)
     cls(0)
     createKeyTable()
@@ -596,7 +601,7 @@ end
 -- </SCREEN>
 
 -- <PALETTE>
--- 000:000000111111222222333333444444555555666666777777888888999999aaaaaabbbbbbccccccddddddeeeeeeffffff
+-- 000:0000007500008c0000a30000ba0000d10000e80000ff00000000007575758c8c8ca3a3a3bababad1d1d1e8e8e8ffffff
 -- 001:0000007500008c0000a30000ba0000d10000e80000ff00000000007575758c8c8ca3a3a3bababad1d1d1e8e8e8ffffff
 -- </PALETTE>
 
